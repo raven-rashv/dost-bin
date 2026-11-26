@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DOST-BIN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green-900: #0f3d1e;
+      --green-700: #177a34;
+      --green-600: #1f9d46;
+      --green-500: #32cd32;
+      --green-100: #e8f8ea;
+      --blue-600: #2563eb;
+      --blue-100: #e7efff;
+      --ink: #1f2937;
+      --muted: #4b5563;
+      --bg: #f4fff4;
+      --card: #ffffff;
+      --radius: 18px;
+      --shadow: 0 6px 20px rgba(15, 61, 30, .10);
+      --shadow-hover: 0 14px 34px rgba(15, 61, 30, .18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0 }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 90px }
+
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, #dcf7de 0, transparent 40%),
+        radial-gradient(circle at 100% 30%, #e3efff 0, transparent 35%),
+        var(--bg);
+      background-attachment: fixed;
+      color: var(--ink);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit }
+
+    .wrap { width: min(1180px, 92%); margin-inline: auto }
+
+    /* ---------- NAV ---------- */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, .85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(15, 61, 30, .08);
+      box-shadow: 0 2px 14px rgba(0, 0, 0, .06);
+    }
+
+    nav .wrap {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      padding: 12px 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: .08em;
+      font-size: clamp(.85rem, 2.6vw, 1.05rem);
+      padding: 10px 22px;
+      border-radius: 999px;
+      background: var(--green-900);
+      color: #fff;
+      transition: background .25s, transform .25s, box-shadow .25s;
+    }
+
+    nav a:hover,
+    nav a:focus-visible,
+    nav a.active {
+      background: var(--blue-600);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(37, 99, 235, .35);
+      outline: none;
+    }
+
+    /* ---------- HERO ---------- */
+    header.hero {
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      margin: 24px auto 0;
+      width: min(1180px, 92%);
+      padding: clamp(48px, 9vw, 110px) 20px clamp(40px, 7vw, 80px);
+      border-radius: 28px;
+      color: #fff;
+      background: linear-gradient(135deg, #0f7a2b 0%, #32cd32 55%, #7ee08a 100%);
+      box-shadow: var(--shadow-hover);
+    }
+
+    header.hero::before,
+    header.hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .12);
+      animation: float 9s ease-in-out infinite;
+    }
+
+    header.hero::before { width: 320px; height: 320px; top: -120px; left: -90px }
+    header.hero::after { width: 260px; height: 260px; bottom: -110px; right: -60px; animation-delay: -4s }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) }
+      50% { transform: translateY(18px) }
+    }
+
+    header.hero h1 {
+      position: relative;
+      font-size: clamp(2.6rem, 10vw, 5.2rem);
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, .25);
+      line-height: 1.1;
+    }
+
+    .ticker {
+      position: relative;
+      overflow: hidden;
+      margin-top: clamp(18px, 4vw, 34px);
+      white-space: nowrap;
+    }
+
+    .ticker p {
+      display: inline-block;
+      padding-left: 100%;
+      font-size: clamp(1rem, 3.6vw, 1.8rem);
+      font-weight: 500;
+      letter-spacing: .04em;
+      animation: slide 14s linear infinite alternate;
+    }
+
+    @keyframes slide {
+      from { transform: translateX(0) }
+      to { transform: translateX(-100%) }
+    }
+
+    /* ---------- SECTIONS ---------- */
+    section { padding: clamp(48px, 8vw, 96px) 0 0 }
+
+    .section-title {
+      text-align: center;
+      font-weight: 700;
+      line-height: 1.25;
+      font-size: clamp(1.6rem, 5vw, 3rem);
+      margin-bottom: clamp(24px, 4vw, 44px);
+    }
+
+    .section-title.green { color: var(--green-700) }
+    .section-title.blue { color: var(--blue-600) }
+
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 84px;
+      height: 5px;
+      border-radius: 5px;
+      margin: 16px auto 0;
+      background: linear-gradient(90deg, var(--green-500), var(--blue-600));
+    }
+
+    /* About */
+    .about-box {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(22px, 4vw, 48px);
+      text-align: center;
+      border-left: 6px solid var(--green-500);
+      max-width: 980px;
+      margin-inline: auto;
+    }
+
+    .about-box p {
+      font-size: clamp(.95rem, 2.4vw, 1.2rem);
+      line-height: 1.9;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    hr {
+      border: 0;
+      height: 2px;
+      margin: clamp(40px, 7vw, 80px) auto 0;
+      width: min(1180px, 92%);
+      background: linear-gradient(90deg, transparent, rgba(31, 157, 70, .45), transparent);
+    }
+
+    /* Card grids */
+    .grid {
+      display: grid;
+      gap: clamp(16px, 2.4vw, 28px);
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+    }
+
+    .card {
+      position: relative;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px 26px;
+      text-align: center;
+      border-top: 5px solid var(--green-500);
+      transition: transform .3s, box-shadow .3s;
+    }
+
+    .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover) }
+
+    .card h4 {
+      font-size: clamp(1rem, 2.6vw, 1.2rem);
+      font-weight: 700;
+      letter-spacing: .03em;
+      color: var(--green-700);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .card p { font-size: .95rem; color: var(--muted); line-height: 1.75 }
+
+    .benefits .card { border-top-color: var(--blue-600) }
+    .benefits .card h4 { color: var(--blue-600) }
+
+    /* Scroll reveal (only when JS is running) */
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity .6s ease, transform .6s ease, box-shadow .3s;
+    }
+    .js .reveal.in { opacity: 1; transform: none }
+    .js .card.reveal.in:hover { transform: translateY(-8px) }
+
+    /* ---------- MORE / DONATE ---------- */
+    .more-box {
+      text-align: center;
+      color: #fff;
+      border-radius: 28px;
+      padding: clamp(32px, 6vw, 64px) clamp(18px, 4vw, 48px);
+      background: linear-gradient(135deg, #0f7a2b 0%, #32cd32 100%);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .more-box h1 {
+      font-size: clamp(1.4rem, 4.4vw, 2.3rem);
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 8px;
+      letter-spacing: .03em;
+    }
+
+    .more-box h3 {
+      font-size: clamp(1rem, 2.8vw, 1.2rem);
+      font-weight: 500;
+      margin-bottom: 26px;
+      opacity: .95;
+    }
+
+    form {
+      display: grid;
+      gap: 16px;
+      max-width: 520px;
+      margin: 0 auto 26px;
+      text-align: left;
+    }
+
+    form label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      font-size: .9rem;
+    }
+
+    form input[type="text"] {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    form input[type="text"]:focus {
+      outline: none;
+      border-color: var(--blue-600);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, .25);
+    }
+
+    .btn {
+      cursor: pointer;
+      border: 0;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font: inherit;
+      font-weight: 600;
+      letter-spacing: .08em;
+      font-size: clamp(.9rem, 2.6vw, 1.05rem);
+      color: #fff;
+      background: var(--green-900);
+      transition: background .25s, transform .25s, box-shadow .25s;
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      background: var(--blue-600);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(37, 99, 235, .35);
+      outline: none;
+    }
+
+    .btn:active { transform: translateY(0) }
+
+    .more-box .transfer {
+      font-weight: 700;
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      letter-spacing: .04em;
+      margin-bottom: 18px;
+      word-break: break-word;
+    }
+
+    .more-box .tag { font-style: italic; font-size: 1.05rem; opacity: .95; margin-bottom: 10px }
+
+    .more-box .copy {
+      font-size: .9rem;
+      opacity: .9;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, .35);
+    }
+
+    footer-spacer { display: block; height: clamp(32px, 6vw, 72px) }
+
+    /* ---------- THANK-YOU MODAL ---------- */
+    .thanks {
+      width: min(440px, 92vw);
+      border-radius: 24px;
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, .35);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(15, 61, 30, .55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .overlay.show,
+    .overlay:target { display: flex }
+    a.btn { display: inline-block; text-decoration: none }
+    .overlay.show .thanks { animation: pop .35s cubic-bezier(.2, 1.2, .4, 1) }
+
+    /* Validation */
+    .field { display: flex; flex-direction: column; gap: 6px }
+    .field label { font-weight: 600; letter-spacing: .06em; font-size: .9rem }
+    .field .error {
+      display: none;
+      font-size: .85rem;
+      font-weight: 600;
+      color: #7f1d1d;
+      background: #fee2e2;
+      border-left: 4px solid #dc2626;
+      border-radius: 8px;
+      padding: 6px 10px;
+    }
+    .field.invalid .error { display: block }
+    .field.invalid input[type="text"] { border-color: #dc2626; box-shadow: 0 0 0 4px rgba(220, 38, 38, .2) }
+    .form-msg {
+      display: none;
+      font-weight: 600;
+      color: #7f1d1d;
+      background: #fee2e2;
+      border-radius: 10px;
+      padding: 10px 14px;
+      text-align: center;
+    }
+    .form-msg.show { display: block }
+
+    @keyframes pop {
+      from { opacity: 0; transform: scale(.85) translateY(20px) }
+      to { opacity: 1; transform: none }
+    }
+
+    .thanks-top {
+      padding: 34px 20px 22px;
+      background: linear-gradient(135deg, #0f7a2b, #32cd32);
+    }
+
+    .check {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .2);
+    }
+
+    .check svg { width: 40px; height: 40px }
+    .check path {
+      stroke: var(--green-600);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      animation: draw .5s .25s ease forwards;
+    }
+
+    @keyframes draw { to { stroke-dashoffset: 0 } }
+
+    .thanks-body { padding: 26px 26px 30px }
+    .thanks-body h2 { font-size: 1.5rem; color: var(--green-700); margin-bottom: 8px }
+    .thanks-body p { color: var(--muted); margin-bottom: 24px }
+    .thanks-body .btn { min-width: 140px }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 600px) {
+      nav a { padding: 8px 16px }
+      header.hero, .more-box { border-radius: 20px }
+      .about-box { border-left-width: 4px }
+      .card { padding: 24px 20px }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto }
+      .ticker p { animation: none; padding-left: 0 }
+      .ticker { white-space: normal }
+      header.hero::before, header.hero::after, .overlay.show .thanks, .check path { animation: none }
+      .check path { stroke-dashoffset: 0 }
+      .card, nav a, .js .reveal { transition: none }
+      .js .reveal { opacity: 1; transform: none }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="wrap">
+      <a href="#about">ABOUT</a>
+      <a href="#features">FEATURES</a>
+      <a href="#benefits">BENEFITS</a>
+      <a href="#more">MORE</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <h1>DOST-BIN</h1>
+    <div class="ticker">
+      <p>AI INSIDE ZERO WASTE OUTSIDE</p>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="wrap">
+      <h2 class="section-title green">MEET WITH OUR DUSTBIN</h2>
+      <div class="about-box reveal">
+        <p>OUR DOST-BIN USES AUTOMATED WASTE MANAGEMENT SYSTEM THAT USES ARTIFICIAL INTELLIGENCE,COMPUTER VISION,AND
+          MECHANICAL
+          COMPONENTS TO INDENTIFY,CLASSIFY,AND SEGREGATE GARBAGE INTO DISTINCT CATEGORIES
+          WITHOUT HUMAN SUPERVISION.DESIGNED TO ELIMINATE HUMAN SORTING ERRORS AT THE POINT OF DISPOSAL,
+          THESE BINS IMPROVE RECYCLING EFFICIENCY AND REDUCE LANDFILL CONTAMINATION</p>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+  <section id="features">
+    <div class="wrap">
+      <h2 class="section-title green">NOW LET'S TALK ABOUT THE FEATURES OF OUR DOST-BIN</h2>
+      <div class="grid">
+        <div class="card reveal">
+          <h4>AI VISION &amp; <br>SENSOR RECOGNITION</h4>
+          <p>POWERED BY ADVANCED COMPUTER VISION AND MULTI-SPECTRUMS SENSORS
+            ,OUR BIN IDENTIFIES MATERIAL INSTANTLY.</p>
+        </div>
+        <div class="card reveal">
+          <h4>AUTOMATED MACHANICAL<br> SORTING</h4>
+          <p>ONCE THE AI IDENTIFIES YOUR WASTE ,OUR SILENT ,HIGH-TORQUE
+            SORTING MACHANISM ROUTES EVERY ITEM INTO ITS DEDICATED COMPARTMENTSIN A FRACTION OF A
+            SECOND.</p>
+        </div>
+        <div class="card reveal">
+          <h4>TOUCHLESS MOTION-SENSOR LID</h4>
+          <p>INFRARED SENSORS OPEN THE LID WITHIN 0.3 SECONDS WHEN A
+            HAND APPROACHES PREVENTING PHYSICAL CINTACT WITH HARMFUL GERMS</p>
+        </div>
+        <div class="card reveal">
+          <h4>FILL LEVEL MONITIRING AND ALERTS</h4>
+          <p>BUILT IN ULTRASONIC SENSORS TRACK EVERY COMPARTEMENT IN
+            REAL TIME AND NOTIFY YOU THE MOMENT A BIN IS READY TO BE EMPTIED.</p>
+        </div>
+        <div class="card reveal">
+          <h4>SMART COMPACTION TECHNOLOGY</h4>
+          <p>AN INTERGRATED ,HIGH FORCE COMPACTION PLATE
+            AUTOMATICALLY CRUSHES BULKY DRY-WASTE -MAXIMIZING EVERY INCH OF BIN
+            CAPACITY WITHOUT YOU LIFTING A FINGER.</p>
+        </div>
+        <div class="card reveal">
+          <h4>ODOR CONTROL AND UV</h4>
+          <p>MULTI SAGE ODOR NEUTRALIZATION AND AUTOMATED UV-C
+            SANIZATION KEEP YOUR SPACE SMELLING FRESH AND HYGENIC AROUND THE CLOCK.</p>
+        </div>
+        <div class="card reveal">
+          <h4>MOBILE APP AND CLOUD DASHBOARD</h4>
+          <p>MONITOR FILL LEVELS ,TRACK YOUR RECYCLING IMPACT,
+            AND MANAGE ONE BIN OR AN ENTIRE BUILDING FLEET FROM A SINGLE ,INTUTIVE PLATFORM.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="benefits" class="benefits">
+    <div class="wrap">
+      <h2 class="section-title blue">NOW LET'S TALK ABOUT THE BENEFITS OF OUR DOST-BIN</h2>
+      <div class="grid">
+        <div class="card reveal">
+          <h4>ZERO SORTING CONFUSION</h4>
+          <p>ELIMINATES GUESSWORK FOR USERS ENSURING RECYCABLES
+            ARE NOT CONTAMINATED BY FOOD OR WET WASTE</p>
+        </div>
+        <div class="card reveal">
+          <h4>SAVES TIME AND LABOUR COST</h4>
+          <p>REDUCES THE MANUAL EFFORT REQUIRED BY HOUSEHOLD ,JANITORIAL STAFF,OR WASTE-
+            MANAGEMENT TEAM TO SEPERATE TRASH</p>
+        </div>
+        <div class="card reveal">
+          <h4>HIGHER RECYCLING EFFICIENCY</h4>
+          <p>CLEAN,PRESORTED WASTE IS MUCH EASIER AND MORE PROFITABLE TO RECYCLE ,BOOSTING SUSTAINABILITY
+            GOALS.</p>
+        </div>
+        <div class="card reveal">
+          <h4>CLEANER,ODOR FREE SPACES</h4>
+          <p>TOUCHLESS OPERATION AND BUILT-IN DEODORIZERS PREVENT GERM SPREAD AND BAD SMELLS IN NEARBY
+            AREAS.</p>
+        </div>
+        <div class="card reveal">
+          <h4>FEWER TRASH RUNS</h4>
+          <p>COMPACTION AND SMART FILL ALERTS MEAN FEWER PLASTIC BAGS USED AND
+            OPTIMIZED COLLECTION SHEDULES</p>
+        </div>
+        <div class="card reveal">
+          <h4>DATA-DRIVEN SUSTAINABILITY</h4>
+          <p>HELPS BUSINESSES,SCHOOLS, AND SMART CITIES TRACK AND PROVE THEIR ENVIRONMENTAL
+            WITH REAL MATRICS.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="more">
+    <div class="wrap">
+      <div class="more-box reveal">
+        <h1>YOUR SUPPORT MATTERS!</h1>
+        <h3>Please contribute and fill out the form.</h3>
+        <form id="supportForm" action="#thanksModal" method="get">
+          <div class="field">
+            <label for="f-name">NAME:</label>
+            <input type="text" id="f-name" name="name" autocomplete="name" required minlength="2">
+            <div class="error" id="e-name" role="alert"></div>
+          </div>
+          <div class="field">
+            <label for="f-city">CITY:</label>
+            <input type="text" id="f-city" name="city" autocomplete="address-level2" required minlength="2">
+            <div class="error" id="e-city" role="alert"></div>
+          </div>
+          <div class="field">
+            <label for="f-amount">AMOUNT:</label>
+            <input type="text" id="f-amount" name="amount" inputmode="numeric" pattern="[0-9]+" maxlength="9" autocomplete="off" required title="Digits only, e.g. 500">
+            <div class="error" id="e-amount" role="alert"></div>
+          </div>
+          <div class="field">
+            <label for="f-words">IN WORDS</label>
+            <input type="text" id="f-words" name="words">
+            <div class="error" id="e-words" role="alert"></div>
+          </div>
+          <div class="form-msg" id="formMsg" role="alert">Please correct the highlighted fields and try again.</div>
+          <button class="btn" type="submit">Submit</button>
+        </form>
+        <p class="transfer">TRANSFER ON NUMBER 1234567890</p>
+        <p class="tag">"Your Friend for a Cleaner and Greener Future."</p>
+        <p class="copy">© 2026 DOST-BIN | AI Powered Eco-Friendly Smart Dustbin</p>
+      </div>
+    </div>
+  </section>
+  <footer-spacer></footer-spacer>
+
+  <!-- Thank-you pop-up -->
+  <div class="overlay" id="thanksModal">
+  <div class="thanks" role="dialog" aria-modal="true" aria-labelledby="thanksTitle" aria-describedby="thanksText">
+    <div class="thanks-top">
+      <div class="check" aria-hidden="true">
+        <svg viewBox="0 0 40 40"><path d="M8 21l8 8 16-18"></path></svg>
+      </div>
+    </div>
+    <div class="thanks-body">
+      <h2 id="thanksTitle">Thank You!</h2>
+      <p id="thanksText">Thank you for your support. Together we can build a cleaner and greener future.</p>
+      <a class="btn" role="button" id="thanksOk" href="#more">OK</a>
+    </div>
+  </div>
+  </div>
+
+  <script>
+    document.documentElement.classList.add('js');
+
+    // ---- Thank-you modal on submit ----
+    (function () {
+      var form = document.getElementById('supportForm');
+      var modal = document.getElementById('thanksModal');
+      var ok = document.getElementById('thanksOk');
+      var formMsg = document.getElementById('formMsg');
+
+      // With JS running we show our own messages instead of the browser's
+      // (without JS the native required/pattern checks still apply).
+      form.noValidate = true;
+
+      // Amount: numeric only - strips anything that is not 0-9 (typing, paste, drop)
+      var amount = form.elements['amount'];
+      amount.addEventListener('keydown', function (e) {
+        if (e.ctrlKey || e.metaKey || e.altKey || e.key.length > 1) return;   // allow shortcuts, Backspace, arrows...
+        if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+      });
+      amount.addEventListener('input', function () {
+        var clean = amount.value.replace(/\D/g, '');
+        if (clean !== amount.value) amount.value = clean;
+      });
+
+      var rules = {
+        name: function (v) {
+          if (!v) return 'Please enter your name.';
+          if (v.length < 2) return 'Name must be at least 2 characters.';
+          if (!/^[A-Za-z\u0900-\u097F .'-]+$/.test(v)) return 'Name can contain only letters and spaces.';
+          return '';
+        },
+        city: function (v) {
+          if (!v) return 'Please enter your city.';
+          if (!/^[A-Za-z\u0900-\u097F .'-]{2,}$/.test(v)) return 'Please enter a valid city name.';
+          return '';
+        },
+        amount: function (v) {
+          if (!v) return 'Please enter the amount.';
+          if (!/^\d+$/.test(v)) return 'Amount must contain digits only, e.g. 500.';
+          if (parseInt(v, 10) <= 0) return 'Amount must be greater than 0.';
+          return '';
+        },
+        words: function (v) {
+          if (v && !/^[A-Za-z\u0900-\u097F .,'-]+$/.test(v)) return 'Please write the amount in words only (letters).';
+          return '';
+        }
+      };
+
+      function check(name) {
+        var input = form.elements[name];
+        var box = input.parentNode;
+        var err = document.getElementById('e-' + name);
+        var msg = rules[name](input.value.trim());
+        err.textContent = msg;
+        box.classList.toggle('invalid', !!msg);
+        input.setAttribute('aria-invalid', msg ? 'true' : 'false');
+        return !msg;
+      }
+
+      Object.keys(rules).forEach(function (name) {
+        var input = form.elements[name];
+        input.addEventListener('blur', function () { check(name); });
+        input.addEventListener('input', function () {
+          if (input.parentNode.classList.contains('invalid')) check(name);
+          formMsg.classList.remove('show');
+        });
+      });
+
+      function openModal() {
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        ok.focus();
+      }
+      function closeModal() {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+        form.reset();
+        Object.keys(rules).forEach(function (n) {
+          form.elements[n].parentNode.classList.remove('invalid');
+          form.elements[n].removeAttribute('aria-invalid');
+        });
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();               // stay on the page
+        var firstBad = null, allOk = true;
+        Object.keys(rules).forEach(function (n) {
+          if (!check(n)) { allOk = false; if (!firstBad) firstBad = form.elements[n]; }
+        });
+        if (!allOk) {
+          formMsg.classList.add('show');
+          firstBad.focus();
+          return;
+        }
+        formMsg.classList.remove('show');
+        openModal();
+      });
+
+      ok.addEventListener('click', function (e) { e.preventDefault(); closeModal(); });
+      modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('show')) closeModal();
+      });
+    })();
+
+    // ---- Scroll reveal ----
+    (function () {
+      var items = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        items.forEach(function (el) { el.classList.add('in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+        });
+      }, { threshold: 0.12 });
+      items.forEach(function (el, i) {
+        el.style.transitionDelay = (i % 3) * 80 + 'ms';
+        io.observe(el);
+      });
+    })();
+
+    // ---- Highlight current nav link ----
+    (function () {
+      var links = document.querySelectorAll('nav a');
+      var map = {};
+      links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+      if (!('IntersectionObserver' in window)) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) {
+            links.forEach(function (a) { a.classList.remove('active'); });
+            if (map[en.target.id]) map[en.target.id].classList.add('active');
+          }
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      Object.keys(map).forEach(function (id) {
+        var s = document.getElementById(id); if (s) io.observe(s);
+      });
+    })();
+  </script>
+
+</body>
+
+</html>
